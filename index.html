@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="Felipe Carvajal Perez">
+  <meta name="description" content="Tarea 5 ISW-512: ejemplos prácticos de la sintaxis de JavaScript.">
+  <title>Tarea 5 · Sintaxis de JavaScript</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="hero" id="inicio">
+    <div class="hero-content">
+      <span class="badge">ISW-512 · Diseño de Aplicaciones Web</span>
+      <h1>Sintaxis de JavaScript</h1>
+      <p>Tarea 5 — Ejemplos prácticos e interactivos de control de flujo, bucles, funciones, operadores, números, fechas, texto, colecciones y el DOM.</p>
+      <div class="student">
+        <div><small>Estudiante</small><strong>Felipe Carvajal Perez</strong></div>
+        <div><small>Profesor</small><strong>Mit. Sergio González Salazar</strong></div>
+        <div><small>Carrera</small><strong>Ingeniería del Software · UTN</strong></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== NAV ===================== -->
+  <nav class="topnav" aria-label="Secciones">
+    <ul>
+      <li><a href="#control-flujo">1. Control de flujo</a></li>
+      <li><a href="#bucles">2. Bucles</a></li>
+      <li><a href="#funciones">3. Funciones</a></li>
+      <li><a href="#operadores">4. Operadores</a></li>
+      <li><a href="#numeros-fechas">5. Números y fechas</a></li>
+      <li><a href="#texto">6. Texto</a></li>
+      <li><a href="#colecciones">7. Colecciones</a></li>
+      <li><a href="#dom">8. DOM</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ===================== 1. CONTROL DE FLUJO ===================== -->
+    <section id="control-flujo" class="section">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <div>
+          <h2>Control de flujo y manejo de errores</h2>
+          <p>Permiten decidir qué código se ejecuta según una condición y reaccionar de forma controlada cuando algo sale mal.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- if...else -->
+        <article class="card">
+          <div class="card-head"><span class="tag">if...else</span><h3>Clasificador de notas</h3></div>
+          <p class="desc">Evalúa condiciones en orden; se ejecuta el primer bloque cuya condición sea verdadera.</p>
+<pre><code>function classifyGrade(grade) {
+  if (grade &gt;= 90) {
+    return 'Aprobado con excelencia';
+  } else if (grade &gt;= 70) {
+    return 'Aprobado';
+  } else if (grade &gt;= 60) {
+    return 'Ampliación';
+  } else {
+    return 'Reprobado';
+  }
+}</code></pre>
+          <div class="controls">
+            <div class="field"><label for="grade-input">Nota (0 - 100)</label><input type="number" id="grade-input" value="85" min="0" max="100"></div>
+            <button class="btn" id="grade-btn">Clasificar</button>
+          </div>
+          <div class="output" id="grade-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- switch -->
+        <article class="card">
+          <div class="card-head"><span class="tag">switch</span><h3>Plan según el día</h3></div>
+          <p class="desc">Compara un valor contra varios <code>case</code>. Si se omite <code>break</code>, la ejecución continúa al siguiente caso.</p>
+<pre><code>switch (day) {
+  case 'sabado':
+  case 'domingo':
+    message = 'Fin de semana';
+    break;
+  case 'viernes':
+    message = '¡Casi fin de semana!';
+    break;
+  default:
+    message = 'Día laboral';
+}</code></pre>
+          <div class="controls">
+            <div class="field">
+              <label for="day-select">Día de la semana</label>
+              <select id="day-select">
+                <option value="lunes">Lunes</option>
+                <option value="martes">Martes</option>
+                <option value="miercoles">Miércoles</option>
+                <option value="jueves">Jueves</option>
+                <option value="viernes">Viernes</option>
+                <option value="sabado">Sábado</option>
+                <option value="domingo">Domingo</option>
+              </select>
+            </div>
+            <button class="btn" id="day-btn">Evaluar</button>
+            <button class="btn ghost" id="today-btn">Usar hoy</button>
+          </div>
+          <div class="output" id="day-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- try/catch/throw -->
+        <article class="card">
+          <div class="card-head"><span class="tag">try / catch / throw</span><h3>Validador de edad</h3></div>
+          <p class="desc"><code>throw</code> lanza un error, <code>catch</code> lo captura y <code>finally</code> se ejecuta siempre. Pruebe con texto, decimales o valores negativos.</p>
+<pre><code>try {
+  const age = validateAge(input.value);
+  // solo llega aquí si no hubo error
+} catch (error) {
+  console.error(error.name, error.message);
+} finally {
+  // se ejecuta siempre
+}
+
+function validateAge(value) {
+  if (value === '') throw new Error('Campo vacío');
+  if (isNaN(value)) throw new TypeError('No es número');
+  if (value &lt; 0 || value &gt; 120)
+    throw new RangeError('Fuera de rango');
+  return Number(value);
+}</code></pre>
+          <div class="controls">
+            <div class="field"><label for="age-input">Edad</label><input type="text" id="age-input" value="abc"></div>
+            <button class="btn" id="age-btn">Validar</button>
+          </div>
+          <div class="output" id="age-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Error objects -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Objetos Error</span><h3>Tipos de error</h3></div>
+          <p class="desc">Todo error es un objeto con <code>name</code> y <code>message</code>. Además de los nativos, se pueden crear errores propios extendiendo <code>Error</code>.</p>
+<pre><code>class ValidationError extends Error {
+  constructor(field, message) {
+    super(message);
+    this.name = 'ValidationError';
+    this.field = field;
+  }
+}
+// Nativos: TypeError, RangeError,
+// ReferenceError, SyntaxError...</code></pre>
+          <div class="controls">
+            <button class="btn ghost" data-error="type">TypeError</button>
+            <button class="btn ghost" data-error="range">RangeError</button>
+            <button class="btn ghost" data-error="reference">ReferenceError</button>
+            <button class="btn ghost" data-error="syntax">SyntaxError</button>
+            <button class="btn secondary" data-error="custom">Personalizado</button>
+          </div>
+          <div class="output" id="error-output" role="status" aria-live="polite">Seleccione un tipo de error para provocarlo y capturarlo.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 2. BUCLES ===================== -->
+    <section id="bucles" class="section">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <div>
+          <h2>Bucles e iteración</h2>
+          <p>Repiten un bloque de código mientras se cumpla una condición.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- for -->
+        <article class="card">
+          <div class="card-head"><span class="tag">for</span><h3>Tabla de multiplicar</h3></div>
+          <p class="desc">Ideal cuando se conoce la cantidad de repeticiones: inicialización, condición e incremento en una sola línea.</p>
+<pre><code>for (let i = 1; i &lt;= 12; i++) {
+  rows.push(`${n} × ${i} = ${n * i}`);
+}</code></pre>
+          <div class="controls">
+            <div class="field"><label for="table-input">Número</label><input type="number" id="table-input" value="7"></div>
+            <button class="btn" id="table-btn">Generar tabla</button>
+          </div>
+          <div class="output" id="table-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- while -->
+        <article class="card">
+          <div class="card-head"><span class="tag">while</span><h3>¿Cuándo se duplica un ahorro?</h3></div>
+          <p class="desc">Se repite mientras la condición sea verdadera; útil cuando no se sabe de antemano cuántas vueltas dará.</p>
+<pre><code>let balance = initial;
+let years = 0;
+while (balance &lt; initial * 2) {
+  balance += balance * (rate / 100);
+  years++;
+}</code></pre>
+          <div class="controls">
+            <div class="field"><label for="savings-input">Ahorro inicial (₡)</label><input type="number" id="savings-input" value="500000"></div>
+            <div class="field"><label for="rate-input">Interés anual (%)</label><input type="number" id="rate-input" value="8" step="0.1"></div>
+            <button class="btn" id="savings-btn">Calcular</button>
+          </div>
+          <div class="output" id="savings-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- do...while -->
+        <article class="card">
+          <div class="card-head"><span class="tag">do...while</span><h3>Lanzar el dado hasta sacar 6</h3></div>
+          <p class="desc">Ejecuta el bloque <strong>al menos una vez</strong> y luego evalúa la condición.</p>
+<pre><code>let roll;
+do {
+  roll = Math.floor(Math.random() * 6) + 1;
+  rolls.push(roll);
+} while (roll !== 6);</code></pre>
+          <div class="controls">
+            <button class="btn secondary" id="dice-btn">Lanzar dado</button>
+          </div>
+          <div class="output" id="dice-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 3. FUNCIONES ===================== -->
+    <section id="funciones" class="section">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <div>
+          <h2>Funciones</h2>
+          <p>Bloques de código reutilizables que reciben parámetros y pueden devolver un valor.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Define -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Definir funciones</span><h3>Formas de declarar</h3></div>
+          <p class="desc">Declaración, expresión, función flecha, parámetros por defecto y parámetros <em>rest</em>.</p>
+<pre><code>// Declaración
+function greet(name) { return `Hola, ${name}`; }
+
+// Expresión
+const greetExp = function (name) { ... };
+
+// Función flecha
+const greetArrow = (name) =&gt; `¡Pura vida, ${name}!`;
+
+// Parámetro por defecto
+function welcome(name = 'invitado') { ... }
+
+// Parámetros rest
+function sumAll(...numbers) {
+  return numbers.reduce((t, n) =&gt; t + n, 0);
+}</code></pre>
+          <div class="controls">
+            <div class="field"><label for="fn-name-input">Nombre (opcional)</label><input type="text" id="fn-name-input" value="Felipe"></div>
+            <button class="btn" id="fn-define-btn">Ejecutar funciones</button>
+          </div>
+          <div class="output" id="fn-define-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Call -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Llamar funciones</span><h3>Calculadora con callbacks</h3></div>
+          <p class="desc">Una función se llama con <code>nombre(argumentos)</code>. También se puede pasar como argumento a otra función (<em>callback</em>).</p>
+<pre><code>const operations = { add, subtract, multiply, divide };
+
+function calculate(a, b, operation) {
+  return operation(a, b); // se llama al callback
+}
+
+calculate(8, 2, operations.divide); // 4</code></pre>
+          <div class="controls">
+            <div class="field"><label for="calc-a">A</label><input type="number" id="calc-a" value="8"></div>
+            <div class="field">
+              <label for="calc-op">Operación</label>
+              <select id="calc-op">
+                <option value="add">Sumar</option>
+                <option value="subtract">Restar</option>
+                <option value="multiply">Multiplicar</option>
+                <option value="divide">Dividir</option>
+              </select>
+            </div>
+            <div class="field"><label for="calc-b">B</label><input type="number" id="calc-b" value="2"></div>
+            <button class="btn" id="calc-btn">Calcular</button>
+          </div>
+          <div class="output" id="calc-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Recursion -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Llamar funciones</span><h3>Factorial recursivo</h3></div>
+          <p class="desc">Una función recursiva se llama a sí misma hasta alcanzar un caso base.</p>
+<pre><code>function factorial(n) {
+  if (n &lt;= 1) return 1;          // caso base
+  return n * factorial(n - 1);   // llamada recursiva
+}</code></pre>
+          <div class="controls">
+            <div class="field"><label for="factorial-input">n (0 - 20)</label><input type="number" id="factorial-input" value="5" min="0" max="20"></div>
+            <button class="btn" id="factorial-btn">Calcular n!</button>
+          </div>
+          <div class="output" id="factorial-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 4. OPERADORES ===================== -->
+    <section id="operadores" class="section">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <div>
+          <h2>Expresiones y operadores</h2>
+          <p>Los operadores combinan valores para producir un resultado: asignar, comparar, calcular y razonar con lógica.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Assignment -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Asignación</span><h3>Modificar una variable</h3></div>
+          <p class="desc">Los operadores compuestos combinan una operación con la asignación.</p>
+<pre><code>let x = 10;
+x += 5;   // x = x + 5
+x -= 3;   // x = x - 3
+x *= 2;   // x = x * 2
+x /= 4;   // x = x / 4
+x %= 3;   // x = x % 3
+x **= 2;  // x = x ** 2</code></pre>
+          <div class="controls">
+            <div class="field"><label for="assign-input">Operando (y)</label><input type="number" id="assign-input" value="3"></div>
+          </div>
+          <div class="controls">
+            <button class="btn ghost" data-assign="=">x = y</button>
+            <button class="btn ghost" data-assign="+=">x += y</button>
+            <button class="btn ghost" data-assign="-=">x -= y</button>
+            <button class="btn ghost" data-assign="*=">x *= y</button>
+            <button class="btn ghost" data-assign="/=">x /= y</button>
+            <button class="btn ghost" data-assign="%=">x %= y</button>
+            <button class="btn ghost" data-assign="**=">x **= y</button>
+            <button class="btn secondary" id="assign-reset">Reiniciar (x = 10)</button>
+          </div>
+          <div class="output" id="assign-output" role="status" aria-live="polite">x = 10</div>
+        </article>
+
+        <!-- Comparison -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Comparación</span><h3>== frente a ===</h3></div>
+          <p class="desc">El valor A se toma como <strong>número</strong> y el valor B como <strong>texto</strong> para evidenciar la diferencia entre igualdad flexible y estricta.</p>
+<pre><code>5 == '5'    // true  (convierte el tipo)
+5 === '5'   // false (compara valor y tipo)
+5 != '5'    // false
+5 !== '5'   // true
+5 &gt; 3       // true</code></pre>
+          <div class="controls">
+            <div class="field"><label for="cmp-a">A (Number)</label><input type="number" id="cmp-a" value="5"></div>
+            <div class="field"><label for="cmp-b">B (String)</label><input type="text" id="cmp-b" value="5"></div>
+            <button class="btn" id="cmp-btn">Comparar</button>
+          </div>
+          <div class="output" id="cmp-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Arithmetic -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Aritméticos</span><h3>Operaciones matemáticas</h3></div>
+          <p class="desc">Suma, resta, multiplicación, división, residuo, potencia, incremento y decremento.</p>
+<pre><code>a + b    a - b    a * b    a / b
+a % b    // residuo de la división
+a ** b   // potencia
+++a      // incremento
+--b      // decremento
+-a       // negación unaria</code></pre>
+          <div class="controls">
+            <div class="field"><label for="ar-a">a</label><input type="number" id="ar-a" value="17"></div>
+            <div class="field"><label for="ar-b">b</label><input type="number" id="ar-b" value="5"></div>
+            <button class="btn" id="ar-btn">Calcular</button>
+          </div>
+          <div class="output" id="ar-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Logical -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Lógicos</span><h3>Acceso a un concierto</h3></div>
+          <p class="desc"><code>&amp;&amp;</code> (Y), <code>||</code> (O), <code>!</code> (NO) y <code>??</code> (valor por defecto si es <code>null</code> o <code>undefined</code>).</p>
+<pre><code>const canEnter = hasTicket &amp;&amp; isAdult;
+const getsDiscount = isVip || isStudent;
+const mustBuy = !hasTicket;
+const displayName = nickname ?? 'Invitado';</code></pre>
+          <div class="controls">
+            <label class="check"><input type="checkbox" id="lg-ticket" checked> Tiene entrada</label>
+            <label class="check"><input type="checkbox" id="lg-adult" checked> Es mayor de edad</label>
+            <label class="check"><input type="checkbox" id="lg-vip"> Es VIP</label>
+            <label class="check"><input type="checkbox" id="lg-student"> Es estudiante</label>
+          </div>
+          <div class="controls">
+            <div class="field"><label for="lg-nick">Apodo (puede quedar vacío)</label><input type="text" id="lg-nick" placeholder="Ej: Pipe"></div>
+            <button class="btn" id="lg-btn">Evaluar</button>
+          </div>
+          <div class="output" id="lg-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 5. NÚMEROS Y FECHAS ===================== -->
+    <section id="numeros-fechas" class="section">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <div>
+          <h2>Números y fechas</h2>
+          <p>Objetos nativos para convertir y formatear números, hacer cálculos matemáticos y trabajar con fechas.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Number -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Number</span><h3>Conversión y formato</h3></div>
+          <p class="desc">Convierte texto a número, valida y formatea. Pruebe con <code>42.5px</code>, <code>1500000</code> o <code>hola</code>.</p>
+<pre><code>Number('42.5')          // 42.5
+parseInt('42.5px')      // 42
+parseFloat('42.5px')    // 42.5
+Number.isInteger(42)    // true
+(3.14159).toFixed(2)    // '3.14'
+value.toLocaleString('es-CR',
+  { style: 'currency', currency: 'CRC' })</code></pre>
+          <div class="controls">
+            <div class="field"><label for="num-input">Valor</label><input type="text" id="num-input" value="42.5px"></div>
+            <button class="btn" id="num-btn">Analizar</button>
+          </div>
+          <div class="output" id="num-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Math -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Math</span><h3>Funciones matemáticas</h3></div>
+          <p class="desc"><code>Math</code> es un objeto estático con constantes y funciones matemáticas.</p>
+<pre><code>Math.round(4.6)    // 5
+Math.floor(4.6)    // 4
+Math.ceil(4.1)     // 5
+Math.trunc(-4.6)   // -4
+Math.sqrt(16)      // 4
+Math.max(...list)
+Math.floor(Math.random() * 100) + 1</code></pre>
+          <div class="controls">
+            <div class="field"><label for="math-input">Número decimal</label><input type="number" id="math-input" value="-7.65" step="any"></div>
+            <div class="field"><label for="math-list">Lista (separada por comas)</label><input type="text" id="math-list" value="4, 18, 9, 27, 3"></div>
+            <button class="btn" id="math-btn">Calcular</button>
+            <button class="btn secondary" id="random-btn">Número aleatorio</button>
+          </div>
+          <div class="output" id="math-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Date -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Date</span><h3>Reloj y calculadora de edad</h3></div>
+          <p class="desc">Un objeto <code>Date</code> representa un instante. Restar dos fechas da la diferencia en milisegundos.</p>
+<pre><code>const now = new Date();
+now.getFullYear();  now.getMonth();  now.getDate();
+now.toLocaleDateString('es-CR', { dateStyle: 'full' });
+
+const diff = target - now;               // milisegundos
+const days = Math.ceil(diff / 86400000);</code></pre>
+          <div class="clock-box">
+            <span class="clock" id="clock">--:--:--</span>
+            <span class="clock-date" id="clock-date"></span>
+          </div>
+          <div class="controls">
+            <div class="field"><label for="birth-input">Fecha de nacimiento</label><input type="date" id="birth-input" value="2004-03-15"></div>
+            <button class="btn" id="birth-btn">Calcular</button>
+          </div>
+          <div class="output" id="birth-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 6. TEXTO ===================== -->
+    <section id="texto" class="section">
+      <div class="section-head">
+        <span class="section-num">06</span>
+        <div>
+          <h2>Formateo de texto</h2>
+          <p>Plantillas literales para construir texto con expresiones y métodos del objeto <code>String</code> para transformarlo.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Template literals -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Cadenas literales</span><h3>Generador de factura</h3></div>
+          <p class="desc">Las plantillas usan comillas invertidas, permiten varias líneas e interpolan expresiones con <code>${ }</code>.</p>
+<pre><code>const receipt = `Cliente: ${customer}
+Producto: ${product}
+Cantidad: ${qty}
+Total: ${formatCRC(qty * price)}
+${qty &gt;= 10 ? 'Aplica 10% de descuento' : ''}`;
+
+// Equivalente con concatenación:
+'Cliente: ' + customer + '\nProducto: ' + product</code></pre>
+          <div class="controls">
+            <div class="field"><label for="tpl-customer">Cliente</label><input type="text" id="tpl-customer" value="Felipe Carvajal Perez"></div>
+            <div class="field"><label for="tpl-product">Producto</label><input type="text" id="tpl-product" value="Café de Tarrazú"></div>
+          </div>
+          <div class="controls">
+            <div class="field"><label for="tpl-qty">Cantidad</label><input type="number" id="tpl-qty" value="12" min="1"></div>
+            <div class="field"><label for="tpl-price">Precio unitario (₡)</label><input type="number" id="tpl-price" value="4500" min="0"></div>
+            <button class="btn" id="tpl-btn">Generar</button>
+          </div>
+          <div class="output" id="tpl-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- String -->
+        <article class="card">
+          <div class="card-head"><span class="tag">String</span><h3>Laboratorio de cadenas</h3></div>
+          <p class="desc">Métodos para medir, buscar, cortar, reemplazar y transformar texto. Las cadenas son inmutables: cada método devuelve una nueva.</p>
+<pre><code>text.length
+text.toUpperCase()
+text.trim()
+text.includes('script')
+text.indexOf('a')
+text.slice(0, 10)
+text.replaceAll('a', '4')
+text.split(' ')
+text.padStart(30, '*')</code></pre>
+          <div class="controls">
+            <div class="field"><label for="str-input">Texto</label><input type="text" id="str-input" value="  JavaScript es divertido  "></div>
+            <div class="field"><label for="str-search">Buscar</label><input type="text" id="str-search" value="script"></div>
+            <button class="btn" id="str-btn">Analizar</button>
+          </div>
+          <div class="output" id="str-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 7. COLECCIONES ===================== -->
+    <section id="colecciones" class="section">
+      <div class="section-head">
+        <span class="section-num">07</span>
+        <div>
+          <h2>Colecciones indexadas</h2>
+          <p>Estructuras ordenadas por índice (empezando en 0): arreglos comunes y arreglos tipados para datos binarios.</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- Array manager -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Arreglos</span><h3>Lista de compras</h3></div>
+          <p class="desc">Métodos que agregan o quitan elementos al inicio o al final, ordenan e invierten.</p>
+<pre><code>const list = ['Arroz', 'Frijoles', 'Café'];
+list.push('Leche');     // agrega al final
+list.unshift('Pan');    // agrega al inicio
+list.pop();             // quita el último
+list.shift();           // quita el primero
+list.sort();            // ordena
+list.reverse();         // invierte</code></pre>
+          <div class="controls">
+            <div class="field"><label for="arr-item">Artículo</label><input type="text" id="arr-item" value="Leche"></div>
+          </div>
+          <div class="controls">
+            <button class="btn" data-array="push">push()</button>
+            <button class="btn" data-array="unshift">unshift()</button>
+            <button class="btn ghost" data-array="pop">pop()</button>
+            <button class="btn ghost" data-array="shift">shift()</button>
+            <button class="btn ghost" data-array="sort">sort()</button>
+            <button class="btn ghost" data-array="reverse">reverse()</button>
+            <button class="btn secondary" data-array="reset">Reiniciar</button>
+          </div>
+          <div class="output" id="arr-output" role="status" aria-live="polite"></div>
+        </article>
+
+        <!-- Array transformation -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Arreglos</span><h3>Métodos de transformación</h3></div>
+          <p class="desc">Recorren el arreglo y devuelven un resultado sin modificar el original.</p>
+<pre><code>const nums = [12, 5, 8, 21, 3];
+nums.map(n =&gt; n * 2);
+nums.filter(n =&gt; n % 2 === 0);
+nums.reduce((total, n) =&gt; total + n, 0);
+nums.find(n =&gt; n &gt; 10);
+nums.some(n =&gt; n &gt; 20);
+[...nums].sort((a, b) =&gt; a - b);</code></pre>
+          <div class="controls">
+            <div class="field"><label for="nums-input">Números (separados por comas)</label><input type="text" id="nums-input" value="12, 5, 8, 21, 3"></div>
+            <button class="btn" id="nums-btn">Procesar</button>
+          </div>
+          <div class="output" id="nums-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- Typed arrays -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Arreglos tipados</span><h3>¿Cómo se guarda un número?</h3></div>
+          <p class="desc">Tienen tamaño fijo y un solo tipo numérico. Si el valor no cabe, se ajusta según el tipo. Pruebe con <code>300</code>, <code>-1</code> o <code>3.7</code>.</p>
+<pre><code>const bytes = new Uint8Array(1);
+bytes[0] = 300;      // 44  (300 % 256)
+
+const clamped = new Uint8ClampedArray(1);
+clamped[0] = 300;    // 255 (se limita al máximo)
+
+const buffer = new ArrayBuffer(4);
+const view8 = new Uint8Array(buffer);   // misma memoria
+const view32 = new Uint32Array(buffer); // otra vista</code></pre>
+          <div class="controls">
+            <div class="field"><label for="typed-input">Valor</label><input type="number" id="typed-input" value="300" step="any"></div>
+            <button class="btn" id="typed-btn">Guardar en cada tipo</button>
+          </div>
+          <div class="output" id="typed-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== 8. DOM ===================== -->
+    <section id="dom" class="section">
+      <div class="section-head">
+        <span class="section-num">08</span>
+        <div>
+          <h2>DOM (Document Object Model)</h2>
+          <p>Representación de la página como un árbol de objetos. Los ejemplos de esta sección buscan y resaltan elementos dentro del área de práctica.</p>
+        </div>
+      </div>
+
+      <!-- Playground used by the DOM examples -->
+      <div class="playground" id="dom-playground">
+        <div class="playground-label">Área de práctica</div>
+        <div class="playground-grid">
+          <div>
+            <h4 id="playground-title">Feria del agricultor</h4>
+            <p id="playground-intro">Frutas disponibles hoy:</p>
+            <ul id="fruit-list">
+              <li class="fruit citrus">Naranja</li>
+              <li class="fruit tropical">Piña</li>
+              <li class="fruit citrus">Limón mandarina</li>
+              <li class="fruit tropical">Mango</li>
+              <li class="fruit berry">Fresa</li>
+            </ul>
+          </div>
+          <div>
+            <form name="orderForm" id="order-form" onsubmit="return false;">
+              <p class="form-title">Formulario de pedido</p>
+              <input type="text" name="customer" placeholder="Nombre del cliente" aria-label="Nombre del cliente">
+              <input type="number" name="quantity" value="1" min="1" aria-label="Cantidad">
+              <select name="fruit" aria-label="Fruta">
+                <option>Naranja</option>
+                <option>Piña</option>
+                <option>Mango</option>
+              </select>
+            </form>
+            <p class="playground-links">
+              <a href="#control-flujo" class="link">Ir a control de flujo</a> ·
+              <a href="#funciones" class="link">Ir a funciones</a>
+            </p>
+            <div class="playground-images">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='36' r='22' fill='%23f6c945'/%3E%3Cpath d='M32 14c4-8 12-10 16-8-2 6-8 10-16 8z' fill='%232f9e6b'/%3E%3C/svg%3E" alt="Ilustración de naranja" width="48" height="48">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='40' rx='16' ry='20' fill='%23f2b705'/%3E%3Cpath d='M32 22l-8-16 8 8 8-8z' fill='%231b6b4a'/%3E%3C/svg%3E" alt="Ilustración de piña" width="48" height="48">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <!-- getElementById -->
+        <article class="card">
+          <div class="card-head"><span class="tag">getElementById</span><h3>Por ID</h3></div>
+          <p class="desc">Devuelve un único elemento, porque el <code>id</code> debe ser único en la página.</p>
+<pre><code>const title = document.getElementById('playground-title');
+title.textContent;   // 'Feria del agricultor'</code></pre>
+          <div class="controls">
+            <div class="field">
+              <label for="dom-id-select">ID</label>
+              <select id="dom-id-select">
+                <option value="playground-title">playground-title</option>
+                <option value="playground-intro">playground-intro</option>
+                <option value="fruit-list">fruit-list</option>
+                <option value="order-form">order-form</option>
+                <option value="no-existe">no-existe</option>
+              </select>
+            </div>
+            <button class="btn" id="dom-id-btn">Buscar</button>
+          </div>
+          <div class="output" id="dom-id-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- getElementsByTagName -->
+        <article class="card">
+          <div class="card-head"><span class="tag">getElementsByTagName</span><h3>Por nombre de etiqueta</h3></div>
+          <p class="desc">Devuelve una <code>HTMLCollection</code> <em>viva</em> con todos los elementos de esa etiqueta.</p>
+<pre><code>const area = document.getElementById('dom-playground');
+const items = area.getElementsByTagName('li');
+items.length;   // 5</code></pre>
+          <div class="controls">
+            <div class="field">
+              <label for="dom-tag-select">Etiqueta</label>
+              <select id="dom-tag-select">
+                <option value="li">li</option>
+                <option value="p">p</option>
+                <option value="input">input</option>
+                <option value="a">a</option>
+                <option value="img">img</option>
+              </select>
+            </div>
+            <button class="btn" id="dom-tag-btn">Buscar</button>
+          </div>
+          <div class="output" id="dom-tag-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- getElementsByClassName -->
+        <article class="card">
+          <div class="card-head"><span class="tag">getElementsByClassName</span><h3>Por nombre de clase</h3></div>
+          <p class="desc">Busca todos los elementos que tengan la clase indicada; se pueden combinar varias separadas por espacio.</p>
+<pre><code>const citrus = document.getElementsByClassName('citrus');
+for (const item of citrus) {
+  console.log(item.textContent);
+}</code></pre>
+          <div class="controls">
+            <div class="field">
+              <label for="dom-class-select">Clase</label>
+              <select id="dom-class-select">
+                <option value="fruit">fruit</option>
+                <option value="citrus">citrus</option>
+                <option value="tropical">tropical</option>
+                <option value="berry">berry</option>
+                <option value="fruit citrus">fruit citrus</option>
+              </select>
+            </div>
+            <button class="btn" id="dom-class-btn">Buscar</button>
+          </div>
+          <div class="output" id="dom-class-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- querySelector -->
+        <article class="card">
+          <div class="card-head"><span class="tag">querySelector / querySelectorAll</span><h3>Por selectores CSS</h3></div>
+          <p class="desc"><code>querySelector</code> devuelve el primer elemento que coincide; <code>querySelectorAll</code> devuelve una <code>NodeList</code> con todos.</p>
+<pre><code>area.querySelector('#fruit-list li.citrus');    // primero
+area.querySelectorAll('li:nth-child(odd)');     // todos
+area.querySelectorAll('input[name="quantity"]');</code></pre>
+          <div class="controls">
+            <div class="field"><label for="dom-css-input">Selector CSS</label><input type="text" id="dom-css-input" value="#fruit-list li.citrus"></div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="dom-css-one-btn">querySelector</button>
+            <button class="btn" id="dom-css-all-btn">querySelectorAll</button>
+          </div>
+          <div class="output" id="dom-css-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+
+        <!-- HTML object collections -->
+        <article class="card">
+          <div class="card-head"><span class="tag">Colecciones HTML</span><h3>Por colecciones de objetos HTML</h3></div>
+          <p class="desc">El objeto <code>document</code> ofrece colecciones ya armadas de formularios, imágenes y enlaces de toda la página.</p>
+<pre><code>document.forms;                       // formularios
+document.forms['orderForm'].elements; // campos del form
+document.images;                      // imágenes
+document.links;                       // enlaces con href
+document.title;                       // título de la página</code></pre>
+          <div class="controls">
+            <button class="btn ghost" data-collection="forms">document.forms</button>
+            <button class="btn ghost" data-collection="elements">forms['orderForm'].elements</button>
+            <button class="btn ghost" data-collection="images">document.images</button>
+            <button class="btn ghost" data-collection="links">document.links</button>
+          </div>
+          <div class="output" id="dom-collection-output" role="status" aria-live="polite">El resultado aparecerá aquí.</div>
+        </article>
+      </div>
+
+      <div class="center">
+        <button class="btn secondary" id="dom-clear-btn">Limpiar resaltado</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <p>Tarea 5 · Sintaxis de JavaScript — Elaborado por <strong>Felipe Carvajal Perez</strong></p>
+    <p>ISW-512 Diseño de Aplicaciones Web · Universidad Técnica Nacional · <span id="footer-year"></span></p>
+  </footer>
+
+  <a href="#inicio" class="to-top" id="to-top" aria-label="Volver arriba">↑</a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
